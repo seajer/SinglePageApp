@@ -16,4 +16,6 @@ public interface EmployeeService {
 	
 	public void generateDefault();
 
+	public void delete(Integer id);
+
 }

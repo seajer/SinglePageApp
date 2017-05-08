@@ -30,4 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		employeeRepository.createDefaultEmployees();
 	}
 
+	public void delete(Integer id) {
+		employeeRepository.deleteEmployeeById(id);
+	}
+
 }

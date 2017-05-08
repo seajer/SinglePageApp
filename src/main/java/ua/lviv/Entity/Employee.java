@@ -46,6 +46,9 @@ public class Employee {
 	public boolean isActive() {
 		return isActive;
 	}
+	public boolean getActive(){
+		return isActive;
+	}
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}

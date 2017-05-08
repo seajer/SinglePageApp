@@ -62,9 +62,10 @@ public class EmployeeRepository {
 
 	public List<Employee> findAllpagableWithDepartment(int pageNumber, int itemsPerPage) {
 		List<Employee> employee = new ArrayList<Employee>();
+		int from = itemsPerPage*(pageNumber-1);
 		String query = "select e.id, e.name, e.isActive, d.id, d.name from " + MySQLConnection.TABLE_EMPLOEES_NAME + " as e" 
 			+ " INNER JOIN " + MySQLConnection.TABLE_DEPARTMENTS_NAME + " as d where e.department_id = d.id LIMIT " 
-			+ itemsPerPage*(pageNumber-1) + ", " + itemsPerPage*pageNumber + ";";
+			+ from  + ", " + itemsPerPage + ";";
 		try {
 			if(statement == null) statement = mysqlConnection.createStatement();
 			ResultSet rs = statement.executeQuery(query);
@@ -81,6 +82,16 @@ public class EmployeeRepository {
 	public void update(int id, String name, Boolean isActive, int dep_id) {
 		String query = "update " + MySQLConnection.TABLE_EMPLOEES_NAME + " set name = '" + name + "' , isActive = " 
 				+ transformBoolToString(isActive) + ", " + "department_id = " + dep_id + " where id = " + id + ";";
+		try {
+			if(statement == null) statement = mysqlConnection.createStatement();
+			statement.execute(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteEmployeeById(Integer id) {
+		String query = "delete from " + MySQLConnection.TABLE_EMPLOEES_NAME + " where id = " + id + ";";
 		try {
 			if(statement == null) statement = mysqlConnection.createStatement();
 			statement.execute(query);
