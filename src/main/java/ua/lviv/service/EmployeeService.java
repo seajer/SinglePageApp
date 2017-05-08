@@ -13,5 +13,7 @@ public interface EmployeeService {
 	public List<Employee> findAllPagableWithDepartment(int pageCount);
 
 	public void saveEmployee(int id, String name, Boolean isActive, int dep_id);
+	
+	public void generateDefault();
 
 }

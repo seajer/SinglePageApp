@@ -18,4 +18,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return depRepository.findAll();
 	}
 
+	public void generateDefault() {
+		depRepository.creatingDefaultDepartments();
+	}
+
 }

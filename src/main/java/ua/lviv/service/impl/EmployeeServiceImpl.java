@@ -26,4 +26,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		employeeRepository.update(id, name, isActive, dep_id);
 	}
 
+	public void generateDefault() {
+		employeeRepository.createDefaultEmployees();
+	}
+
 }

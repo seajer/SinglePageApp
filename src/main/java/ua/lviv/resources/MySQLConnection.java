@@ -7,8 +7,9 @@ import java.sql.Statement;
 
 public class MySQLConnection {
 	
-	static final String DB_URL = "jdbc:mysql://localhost/";
+	static final String DB_URL = "jdbc:mysql://localhost:3306/";
 	static final String USER = "root";
+	static final String DB_PROPERTIES = "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	static final String PASS = "1111";
 	static final String DB_NAME = "spa";
 	static final String TABLE_EMPLOEES_NAME = "Employees";
@@ -21,11 +22,14 @@ public class MySQLConnection {
 			return connection;
 		}else{
 			try {
-				Class.forName("com.mysq.jdbc.Driver");
-				connection = DriverManager.getConnection(DB_URL, USER, PASS);
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+				connection = DriverManager.getConnection(DB_URL+DB_NAME+DB_PROPERTIES, USER, PASS);
+				System.out.println("connection established");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
+				e.printStackTrace();
+			}catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 			return connection;
@@ -33,8 +37,7 @@ public class MySQLConnection {
 	}
 	
 	public void createDatabase() throws SQLException{
-		String createDb = "create database if not exist " +  DB_NAME;
-		statement.execute(createDb);
+		if(statement == null) statement = connection.createStatement();
 		String createDepTable = "create table " + TABLE_DEPARTMENTS_NAME + " (id int not null auto_increment, name varchar(255), primary key(id))";
 		statement.execute(createDepTable);
 		String createEmpTable = "create table " + TABLE_EMPLOEES_NAME +
