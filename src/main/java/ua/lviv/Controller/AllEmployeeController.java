@@ -2,6 +2,7 @@ package ua.lviv.Controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ua.lviv.Entity.Employee;
 import ua.lviv.resources.MySQLConnection;
 import ua.lviv.service.DepartmentService;
 import ua.lviv.service.EmployeeService;
@@ -37,10 +39,22 @@ public class AllEmployeeController extends HttpServlet{
 //		}
 //		depService.generateDefault();
 //		empService.generateDefault();
-		Integer page = Integer.valueOf(req.getParameter("page"));
-		if(page == null) page = 1;
-		req.setAttribute("employees", empService.findAllPagableWithDepartment(page));
+		int page = 1;
+		if(req.getParameter("page") != null){
+			page = Integer.parseInt( req.getParameter("page"));
+		}
+		String search = "";
+		if(req.getParameter("search") != null){
+			search = (String)req.getParameter("search");
+		}
+		int searchedCount = empService.findSearchedCount(search);
+		int pageCount = (searchedCount % EmployeeService.ITEMS_PER_PAGE == 0) ? searchedCount/EmployeeService.ITEMS_PER_PAGE : searchedCount/EmployeeService.ITEMS_PER_PAGE + 1;
+		if(page > pageCount) page = pageCount;
+		List<Employee> employee = empService.findAllPagableWithDepartment(page, search);
+		req.setAttribute("employees", employee);
 		req.setAttribute("departments", depService.findAll());
+		req.setAttribute("pageCount", pageCount);
+		req.setAttribute("searchedStr", search);
 		RequestDispatcher view = req.getRequestDispatcher(JSP_PAGE);
 		view.forward(req, resp);
 	}

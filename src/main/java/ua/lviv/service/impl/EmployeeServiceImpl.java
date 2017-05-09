@@ -18,8 +18,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return employeeRepository.findAll();
 	}
 
-	public List<Employee> findAllPagableWithDepartment(int pageCount) {
-		return employeeRepository.findAllpagableWithDepartment(pageCount, ITEMS_PER_PAGE);
+	public List<Employee> findAllPagableWithDepartment(int pageCount, String search) {
+		return employeeRepository.findAllpagableWithDepartment(pageCount, ITEMS_PER_PAGE, search);
 	}
 
 	public void saveEmployee(int id, String name, Boolean isActive, int dep_id) {
@@ -32,6 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 	public void delete(Integer id) {
 		employeeRepository.deleteEmployeeById(id);
+	}
+
+	public int findSearchedCount(String search) {
+		return employeeRepository.findSearchedEmployeeCount(search);
 	}
 
 }

@@ -21,7 +21,7 @@
   
   <servlet>
   	<servlet-name>editEmploye</servlet-name>
-  	<servlet-class>ua.lviv.Controller.EditController</servlet-class>
+  	<servlet-class>ua.lviv.Controller.EditEmployeeController</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>editEmploye</servlet-name>
@@ -36,6 +36,5 @@
   	<servlet-name>deleteEmp</servlet-name>
   	<url-pattern>/delete</url-pattern>
   </servlet-mapping>
-  
   
 </web-app>

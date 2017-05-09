@@ -64,5 +64,9 @@ public class Employee {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", isActive=" + isActive + "]";
+	}
 }

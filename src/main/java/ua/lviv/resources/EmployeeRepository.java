@@ -60,12 +60,11 @@ public class EmployeeRepository {
 		return employees;
 	}
 
-	public List<Employee> findAllpagableWithDepartment(int pageNumber, int itemsPerPage) {
+	public List<Employee> findAllpagableWithDepartment(int pageNumber, int itemsPerPage, String search) {
 		List<Employee> employee = new ArrayList<Employee>();
-		int from = itemsPerPage*(pageNumber-1);
 		String query = "select e.id, e.name, e.isActive, d.id, d.name from " + MySQLConnection.TABLE_EMPLOEES_NAME + " as e" 
-			+ " INNER JOIN " + MySQLConnection.TABLE_DEPARTMENTS_NAME + " as d where e.department_id = d.id LIMIT " 
-			+ from  + ", " + itemsPerPage + ";";
+			+ " INNER JOIN " + MySQLConnection.TABLE_DEPARTMENTS_NAME + " as d where e.name like '" + search + "%' and "
+			+ "e.department_id = d.id order by e.id limit "	+ itemsPerPage*(pageNumber-1)  + ", " + itemsPerPage + ";";
 		try {
 			if(statement == null) statement = mysqlConnection.createStatement();
 			ResultSet rs = statement.executeQuery(query);
@@ -77,6 +76,21 @@ public class EmployeeRepository {
 			e.printStackTrace();
 		}
 		return employee;
+	}
+	
+	public int findSearchedEmployeeCount(String search){
+		String query = "select count(*) from " + MySQLConnection.TABLE_EMPLOEES_NAME + " where name like '" + search + "%';";
+		int result = 0;
+		try {
+			if(statement == null)statement = mysqlConnection.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			while(rs.next()){
+				result = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	public void update(int id, String name, Boolean isActive, int dep_id) {

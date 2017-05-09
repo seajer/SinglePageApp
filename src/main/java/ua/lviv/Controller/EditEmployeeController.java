@@ -23,8 +23,9 @@ public class EditEmployeeController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int id = Integer.parseInt(req.getParameter("id"));
 		String name = req.getParameter("name");
-		Boolean isActive = (Boolean) req.getAttribute("isActive");
+		boolean isActive = (req.getParameter("isActive") == null) ? false : true;
 		int dep_id = Integer.parseInt(req.getParameter("dep_id"));
 		empService.saveEmployee(id, name, isActive, dep_id);
+		resp.sendRedirect(EmployeeService.URL);
 	}
 }

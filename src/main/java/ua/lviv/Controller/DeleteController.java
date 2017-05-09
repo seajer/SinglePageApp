@@ -13,8 +13,6 @@ import ua.lviv.service.impl.EmployeeServiceImpl;
 @SuppressWarnings("serial")
 public class DeleteController extends HttpServlet{
 
-	private static final String URL = "/SimplePageApplicaion/allEmp?page=1";
-	
 	private EmployeeService empService;
 	
 	public DeleteController() {
@@ -25,6 +23,6 @@ public class DeleteController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Integer id = Integer.parseInt(req.getParameter("id"));
 		empService.delete(id);
-		resp.sendRedirect(URL);
+		resp.sendRedirect(EmployeeService.URL);
 	}
 }
