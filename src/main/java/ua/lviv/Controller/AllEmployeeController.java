@@ -32,13 +32,17 @@ public class AllEmployeeController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		try {
-//			new MySQLConnection().createDatabase();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		depService.generateDefault();
-//		empService.generateDefault();
+
+		MySQLConnection mySQLConnection = new MySQLConnection();
+		if(!mySQLConnection.checkDBExists()){
+			try {
+				mySQLConnection.createDatabase();
+				depService.generateDefault();
+				empService.generateDefault();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		int page = 1;
 		if(req.getParameter("page") != null){
 			page = Integer.parseInt( req.getParameter("page"));

@@ -31,7 +31,6 @@ public class DepartmentRepository {
 				+ "('Ninth department'),"
 				+ "('Secret department');");
 		try {
-			System.out.println("1: "+mysqlConnection.toString());
 			statement = mysqlConnection.createStatement();
 			statement.execute(query);
 		} catch (SQLException e) {

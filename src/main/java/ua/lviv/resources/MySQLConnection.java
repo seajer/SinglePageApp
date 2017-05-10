@@ -2,6 +2,7 @@ package ua.lviv.resources;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -47,6 +48,25 @@ public class MySQLConnection {
 				+ " primary key(id),"
 				+ " foreign key(department_id) references " + TABLE_DEPARTMENTS_NAME + "(id));";
 		statement.execute(createEmpTable);
+	}
+	
+	public boolean checkDBExists(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(DB_URL+DB_NAME+DB_PROPERTIES, USER, PASS);
+			ResultSet resultSet = connection.getMetaData().getCatalogs();
+	        while (resultSet.next()) {
+
+	          String databaseName = resultSet.getString(1);
+	            if(databaseName.equals(DB_NAME)){
+	                return true;
+	            }
+	        }
+	        resultSet.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public void closeConnection() {
